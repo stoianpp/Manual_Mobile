@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mob_Manual.Android", "Mob_M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mob_Manual.iOS", "Mob_Manual\Mob_Manual.iOS\Mob_Manual.iOS.csproj", "{B0267D4C-DF63-4FB7-A7CC-1FAC8305787D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mob_Manual", "Mob_Manual\Mob_Manual\Mob_Manual.csproj", "{35051E60-9C05-47B6-A6DB-FF8B3756D6CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mob_Manual", "Mob_Manual\Mob_Manual\Mob_Manual.csproj", "{35051E60-9C05-47B6-A6DB-FF8B3756D6CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

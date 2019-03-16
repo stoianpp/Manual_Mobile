@@ -1,14 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Mob_Manual
@@ -19,7 +13,6 @@ namespace Mob_Manual
         {
             InitializeComponent();
             RefreshDataAsync();
-
         }
 
         public async void RefreshDataAsync()
@@ -28,6 +21,7 @@ namespace Mob_Manual
             var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
 
             var response = await client.GetAsync(uri);
+
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -38,16 +32,44 @@ namespace Mob_Manual
 
         public void VisualizeProducts(DataIn data)
         {
-            var layout = new StackLayout();
-            Content = layout;
+            //Indicator.IsRunning = false;
+            //var scroll = new ScrollView();
+            //var layout = new Grid();
+            //scroll.Content = layout;
+            //Content = scroll;
 
+            //var counter = 0;
+            //foreach (var product in data.data)
+            //{
+            //    Image image = new Image()
+            //    {
+            //        HeightRequest = 240,
+            //        Aspect=Aspect.Fill,
+            //    };
+            //    var stream = new MemoryStream(product.Image);
+            //    image.Source =  ImageSource.FromStream(() => { return stream; });
+            //    layout.Children.Add(image,0,counter++);
+            //}
+
+            var listData = new List<Product>();
             foreach (var product in data.data)
             {
                 Image image = new Image();
                 var stream = new MemoryStream(product.Image);
-                image.Source =  ImageSource.FromStream(() => { return stream; });
-                layout.Children.Add(image);
+                image.Source = ImageSource.FromStream(() => { return stream; });
+                var currentProduct = new Product
+                {
+                    Id = product.Id,
+                    SubCategory = product.SubCategory,
+                    SubCategoryId = product.SubCategoryId,
+                    Photo = image.Source,
+                    LangText = product.LangText,
+                    Name = product.Name
+                };
+                listData.Add(currentProduct);
             }
+
+            listView.ItemsSource = listData;
         }
 
         public class DataIn
@@ -90,6 +112,16 @@ namespace Mob_Manual
             public string Name { get; set; }
             [JsonProperty("Image")]
             public byte[] Image { get; set; }
+        }
+
+        public class Product
+        {
+            public int Id { get; set; }
+            public int SubCategoryId { get; set; }
+            public string SubCategory { get; set; }
+            public string Name { get; set; }
+            public ImageSource Photo { get; set; }
+            public string LangText { get; set; }
         }
     }
 }

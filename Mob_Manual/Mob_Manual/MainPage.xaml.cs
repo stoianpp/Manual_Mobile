@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using Xamarin.Forms;
@@ -32,26 +33,7 @@ namespace Mob_Manual
 
         public void VisualizeProducts(DataIn data)
         {
-            //Indicator.IsRunning = false;
-            //var scroll = new ScrollView();
-            //var layout = new Grid();
-            //scroll.Content = layout;
-            //Content = scroll;
-
-            //var counter = 0;
-            //foreach (var product in data.data)
-            //{
-            //    Image image = new Image()
-            //    {
-            //        HeightRequest = 240,
-            //        Aspect=Aspect.Fill,
-            //    };
-            //    var stream = new MemoryStream(product.Image);
-            //    image.Source =  ImageSource.FromStream(() => { return stream; });
-            //    layout.Children.Add(image,0,counter++);
-            //}
-
-            var listData = new List<Product>();
+            var listData = new ObservableCollection<Product>();
             foreach (var product in data.data)
             {
                 Image image = new Image();
@@ -68,8 +50,9 @@ namespace Mob_Manual
                 };
                 listData.Add(currentProduct);
             }
-
+            
             listView.ItemsSource = listData;
+            listView.IsRefreshing = false;
         }
 
         public class DataIn
@@ -122,6 +105,20 @@ namespace Mob_Manual
             public string Name { get; set; }
             public ImageSource Photo { get; set; }
             public string LangText { get; set; }
+        }
+
+        private void MenuItem_Clicked(object sender, EventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            var product = menuItem.CommandParameter as Product;
+            //var text = new HtmlWebViewSource();
+            //text.Html = product.LangText;
+            DisplayAlert("Call",product.Name, "Ok");
+        }
+
+        private void listView_Refreshing(object sender, EventArgs e)
+        {
+            RefreshDataAsync();
         }
     }
 }

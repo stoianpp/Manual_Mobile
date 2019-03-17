@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using Xamarin.Forms;
 
@@ -16,7 +17,7 @@ namespace Mob_Manual
             RefreshDataAsync();
         }
 
-        public async void RefreshDataAsync()
+        public async void RefreshDataAsync(string searchText = "no text")
         {
             var client = new HttpClient();
             var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
@@ -27,13 +28,13 @@ namespace Mob_Manual
             {
                 var content = await response.Content.ReadAsStringAsync();
                 DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
-                VisualizeProducts(data);
+                VisualizeProducts(data, searchText);
             }
         }
 
-        public void VisualizeProducts(DataIn data)
+        public void VisualizeProducts(DataIn data, string searchText)
         {
-            var listData = new ObservableCollection<Product>();
+            var listData = new List<Product>();
             foreach (var product in data.data)
             {
                 Image image = new Image();
@@ -50,7 +51,12 @@ namespace Mob_Manual
                 };
                 listData.Add(currentProduct);
             }
-            
+
+            if (searchText != "no text")
+            {
+                listData = listData.Where(x => x.Name.StartsWith(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+
             listView.ItemsSource = listData;
             listView.IsRefreshing = false;
         }
@@ -119,6 +125,11 @@ namespace Mob_Manual
         private void listView_Refreshing(object sender, EventArgs e)
         {
             RefreshDataAsync();
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RefreshDataAsync(e.NewTextValue);
         }
     }
 }

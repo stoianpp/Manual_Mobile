@@ -4,22 +4,25 @@
              xmlns:local="clr-namespace:Mob_Manual.MarkupExtentions"
              x:Class="Mob_Manual.MainPage"
              Padding="0,20,0,0">
-    <ListView x:Name="listView" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
-                        <Image Source="{Binding Photo}" HeightRequest="40"/>
-                        <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
-                            <Label Text="{Binding Name}" FontSize="Micro"/>
-                            <Label Text="{Binding SubCategory}" TextColor="CadetBlue" FontSize="Micro"/>
+    <StackLayout>
+        <SearchBar Placeholder="Search..." TextChanged="SearchBar_TextChanged"/>
+        <ListView x:Name="listView" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{Binding Photo}" HeightRequest="40"/>
+                            <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
+                                <Label Text="{Binding Name}" FontSize="Micro"/>
+                                <Label Text="{Binding SubCategory}" TextColor="CadetBlue" FontSize="Micro"/>
+                            </StackLayout>
                         </StackLayout>
-                    </StackLayout>
-                    <ViewCell.ContextActions>
-                        <MenuItem Text="Details" Clicked="MenuItem_Clicked" CommandParameter="{Binding .}"></MenuItem>
-                    </ViewCell.ContextActions>
-                </ViewCell>
-            </DataTemplate>  
-        </ListView.ItemTemplate>
-    </ListView>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Details" Clicked="MenuItem_Clicked" CommandParameter="{Binding .}"></MenuItem>
+                        </ViewCell.ContextActions>
+                    </ViewCell>
+                </DataTemplate>  
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>

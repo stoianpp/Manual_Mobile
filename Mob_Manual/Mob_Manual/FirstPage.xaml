@@ -2,10 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Mob_Manual.MarkupExtentions"
-             x:Class="Mob_Manual.MainPage"
+             x:Class="Mob_Manual.FirstPage"
              Padding="0,20,0,0">
     <StackLayout>
-        <Label Text="FULL PRODUCT LIST" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
+        <Label Text="SHAVING" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 
                    PlaceholderColor="Gray"
@@ -13,23 +13,22 @@
                    TextColor="Black"
                    BackgroundColor="AntiqueWhite"
                    HeightRequest="25"/>
-
-        <ListView x:Name="listView" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
+        <ListView x:Name="initialListView" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Image Source="{Binding Photo}" HeightRequest="40"/>
                             <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
-                                <Label Text="{Binding Name}" FontSize="Micro"/>
-                                <Label Text="{Binding SubCategory}" TextColor="CadetBlue" FontSize="Micro"/>
+                                <Label Text="{Binding Name}" FontSize="Default"/>
+                                <Label Text="{Binding Category}" TextColor="CadetBlue" FontSize="Micro"/>
                             </StackLayout>
                         </StackLayout>
                         <ViewCell.ContextActions>
                             <MenuItem Text="Details" Clicked="MenuItem_Clicked" CommandParameter="{Binding .}"></MenuItem>
                         </ViewCell.ContextActions>
                     </ViewCell>
-                </DataTemplate>  
+                </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
     </StackLayout>

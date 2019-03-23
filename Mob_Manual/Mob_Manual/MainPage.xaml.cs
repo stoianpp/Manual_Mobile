@@ -46,6 +46,7 @@ namespace Mob_Manual
                     SubCategory = product.SubCategory,
                     SubCategoryId = product.SubCategoryId,
                     Photo = image.Source,
+                    Image = product.Image,
                     LangText = product.LangText,
                     Name = product.Name
                 };
@@ -110,6 +111,7 @@ namespace Mob_Manual
             public string SubCategory { get; set; }
             public string Name { get; set; }
             public ImageSource Photo { get; set; }
+            public byte[] Image { get; set; }
             public string LangText { get; set; }
         }
 
@@ -130,6 +132,12 @@ namespace Mob_Manual
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshDataAsync(e.NewTextValue);
+        }
+
+        private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var product = e.SelectedItem as Product;
+            Navigation.PushAsync(new ProductDetailPage(product));
         }
     }
 }

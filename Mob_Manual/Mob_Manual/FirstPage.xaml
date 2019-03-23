@@ -6,7 +6,6 @@
              Title="Categories"
              Padding="0,20,0,0">
     <StackLayout>
-        <!--<Label Text="SHAVING" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>-->
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 
                    PlaceholderColor="Gray"

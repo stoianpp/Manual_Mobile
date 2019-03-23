@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mob_Manual.MarkupExtentions;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

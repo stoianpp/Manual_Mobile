@@ -3,18 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Mob_Manual.MarkupExtentions"
              x:Class="Mob_Manual.MainPage"
+             Title="Product List"
              Padding="0,20,0,0">
     <StackLayout>
-        <Label Text="FULL PRODUCT LIST" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 
                    PlaceholderColor="Gray"
                    FontSize="Small"
                    TextColor="Black"
-                   BackgroundColor="AntiqueWhite"
                    HeightRequest="25"/>
 
-        <ListView x:Name="listView" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
+        <ListView x:Name="listView" 
+                  HasUnevenRows="True" 
+                  ItemSelected="listView_ItemSelected"
+                  IsPullToRefreshEnabled="True" 
+                  Refreshing="listView_Refreshing">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

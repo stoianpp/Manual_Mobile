@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Name}"
+             x:Class="Mob_Manual.ProductDetailPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Image Source="{Binding Photo}" HeightRequest="200"/>
+            <WebView HeightRequest="300" WidthRequest="300">
+                <WebView.Source>
+                    <HtmlWebViewSource Html="{Binding LangText}"/>
+                </WebView.Source>
+            </WebView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

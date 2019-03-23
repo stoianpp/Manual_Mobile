@@ -19,7 +19,7 @@ namespace Mob_Manual
 
 		async void Next_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new FirstPage());
+			await Navigation.PushAsync(new MainPage());
 		}
 	}
 }

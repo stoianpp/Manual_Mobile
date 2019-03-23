@@ -3,15 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Mob_Manual.MarkupExtentions"
              x:Class="Mob_Manual.FirstPage"
+             Title="Categories"
              Padding="0,20,0,0">
     <StackLayout>
-        <Label Text="SHAVING" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
+        <!--<Label Text="SHAVING" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>-->
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 
                    PlaceholderColor="Gray"
                    FontSize="Small"
                    TextColor="Black"
-                   BackgroundColor="AntiqueWhite"
                    HeightRequest="25"/>
         <ListView x:Name="initialListView" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
             <ListView.ItemTemplate>

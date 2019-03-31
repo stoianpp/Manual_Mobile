@@ -14,12 +14,15 @@ namespace Mob_Manual
 	{
 		public IntroductionPage ()
 		{
-			InitializeComponent ();
+            InitializeComponent();
 		}
 
 		async void Next_Clicked(object sender, EventArgs e)
 		{
+            var email = Mail.Text;
+            var password = Password.Text;
 			await Navigation.PushAsync(new MainPage());
 		}
 	}
+
 }

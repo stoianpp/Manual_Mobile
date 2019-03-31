@@ -134,10 +134,15 @@ namespace Mob_Manual
             RefreshDataAsync(e.NewTextValue);
         }
 
-        private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void listView_ItemSelectedAsync(object sender, SelectedItemChangedEventArgs e)
         {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
             var product = e.SelectedItem as Product;
-            Navigation.PushAsync(new ProductDetailPage(product));
+            await Navigation.PushAsync(new ProductDetailPage(product));
+            listView.SelectedItem = null;
         }
     }
 }

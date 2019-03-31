@@ -15,7 +15,7 @@
 
         <ListView x:Name="listView" 
                   HasUnevenRows="True" 
-                  ItemSelected="listView_ItemSelected"
+                  ItemSelected="listView_ItemSelectedAsync"
                   IsPullToRefreshEnabled="True" 
                   Refreshing="listView_Refreshing">
             <ListView.ItemTemplate>

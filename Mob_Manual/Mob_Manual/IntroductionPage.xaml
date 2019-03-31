@@ -18,7 +18,17 @@
                     TextColor="AntiqueWhite"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="CenterAndExpand" />
-                <Button Text="Next" Clicked="Next_Clicked"/>
+                <Grid VerticalOptions="Start">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="6*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry Grid.Row="2" x:Name="Mail"  Grid.Column="1" FontSize="Small" TextColor="LightGray" PlaceholderColor="White" Placeholder="Email" WidthRequest="150" Text="{Binding Email}" HorizontalOptions="Start" />
+                    <Entry Grid.Row="3" x:Name="Password" Grid.Column="1" FontSize="Small" TextColor="LightGray" PlaceholderColor="White" Placeholder="Password" IsPassword="True" WidthRequest="150" Text="{Binding Password}" HorizontalOptions="Start" />
+                </Grid>
+                <Button Text="Login" Clicked="Next_Clicked"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

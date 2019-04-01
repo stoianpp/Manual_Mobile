@@ -1,18 +1,21 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Xamarin.Forms;
 
 namespace Mob_Manual
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        private readonly string tokenCode;
+
+        public MainPage(string token)
         {
+            this.tokenCode = token;
             InitializeComponent();
             RefreshDataAsync();
         }
@@ -20,6 +23,7 @@ namespace Mob_Manual
         public async void RefreshDataAsync(string searchText = "no text")
         {
             var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
             var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
 
             var response = await client.GetAsync(uri);

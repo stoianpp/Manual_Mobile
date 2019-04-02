@@ -1,18 +1,21 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Xamarin.Forms;
 
 namespace Mob_Manual
 {
     public partial class FirstPage : ContentPage
     {
-        public FirstPage()
+        private MainPage.DataIn retrievedData;
+        private readonly string tokenCode;
+
+        public FirstPage(string token)
         {
+            tokenCode = token;
             InitializeComponent();
             RefreshDataAsync();
         }
@@ -20,6 +23,7 @@ namespace Mob_Manual
         public async void RefreshDataAsync(string searchText = "no text")
         {
             var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
             var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
 
             var response = await client.GetAsync(uri);
@@ -27,23 +31,24 @@ namespace Mob_Manual
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
+                MainPage.DataIn data = JsonConvert.DeserializeObject<MainPage.DataIn>(content);
+                retrievedData = data;
                 VisualizeProducts(data);
             }
         }
 
-        public void VisualizeProducts(DataIn data)
+        public void VisualizeProducts(MainPage.DataIn data)
         {
-            var listData = new List<SubCategory>();
-            listData.Add(new SubCategory { Name = "Full Product List" });
-            listData.Add(new SubCategory { Name = "Merchandising Rules" });
-            listData.Add(new SubCategory { Name = "Current Promotions" });
+            var listData = new List<MainPage.SubCategory>();
+            listData.Add(new MainPage.SubCategory { Name = "Full Product List" });
+            listData.Add(new MainPage.SubCategory { Name = "Merchandising Rules" });
+            listData.Add(new MainPage.SubCategory { Name = "Current Promotions" });
             foreach (var item in data.subCats)
             {
                 Image image = new Image();
                 var stream = new MemoryStream(item.Image);
                 image.Source = ImageSource.FromStream(() => { return stream; });
-                var currentSubCategory = new SubCategory
+                var currentSubCategory = new MainPage.SubCategory
                 {
                     Id = item.Id,
                     Category = item.Category,
@@ -119,13 +124,14 @@ namespace Mob_Manual
             public string LangText { get; set; }
         }
 
-        private void MenuItem_Clicked(object sender, EventArgs e)
+        private async void MenuItem_Clicked(object sender, EventArgs e)
         {
             var menuItem = sender as MenuItem;
-            var product = menuItem.CommandParameter as Product;
+            var subCategory = menuItem.CommandParameter as MainPage.SubCategory;
+            await Navigation.PushAsync(new MainPage(retrievedData, subCategory));
             //var text = new HtmlWebViewSource();
             //text.Html = product.LangText;
-            DisplayAlert("Call", product.Name, "Ok");
+            //DisplayAlert("Call", product.Name, "Ok");
         }
 
         private void listView_Refreshing(object sender, EventArgs e)
@@ -136,6 +142,19 @@ namespace Mob_Manual
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshDataAsync(e.NewTextValue);
+        }
+
+        private async void listView_ItemSelectedAsync(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
+
+            var subCategory = e.SelectedItem as MainPage.SubCategory;
+            await Navigation.PushAsync(new MainPage(retrievedData, subCategory));
+
+            initialListView.SelectedItem = null;
         }
     }
 }

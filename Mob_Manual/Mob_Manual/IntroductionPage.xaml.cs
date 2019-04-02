@@ -33,7 +33,7 @@ namespace Mob_Manual
 
             if (accessToken != null)
             {
-                await Navigation.PushAsync(new MainPage(accessToken));
+                await Navigation.PushAsync(new FirstPage(accessToken));
             }
             else
             {

@@ -3,58 +3,61 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Xamarin.Forms;
 
 namespace Mob_Manual
 {
     public partial class MainPage : ContentPage
     {
-        private readonly string tokenCode;
+        private readonly DataIn retrievedData;
+        private readonly SubCategory subCategory; 
 
-        public MainPage(string token)
+        public MainPage(DataIn data, SubCategory subCat)
         {
-            this.tokenCode = token;
+            retrievedData = data;
+            subCategory = subCat;
             InitializeComponent();
-            RefreshDataAsync();
+            VisualizeProducts(data);
         }
 
-        public async void RefreshDataAsync(string searchText = "no text")
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
-            var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
+        //public async void RefreshDataAsync(string searchText = "no text")
+        //{
+        //    var client = new HttpClient();
+        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
+        //    var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
+        //
+        //    var response = await client.GetAsync(uri);
+        //
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var content = await response.Content.ReadAsStringAsync();
+        //        DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
+        //        VisualizeProducts(data, searchText);
+        //    }
+        //}
 
-            var response = await client.GetAsync(uri);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
-                VisualizeProducts(data, searchText);
-            }
-        }
-
-        public void VisualizeProducts(DataIn data, string searchText)
+        public void VisualizeProducts(DataIn data, string searchText = "no text")
         {
             var listData = new List<Product>();
             foreach (var product in data.data)
             {
-                Image image = new Image();
-                var stream = new MemoryStream(product.Image);
-                image.Source = ImageSource.FromStream(() => { return stream; });
-                var currentProduct = new Product
+                if (product.SubCategoryId == subCategory.Id)
                 {
-                    Id = product.Id,
-                    SubCategory = product.SubCategory,
-                    SubCategoryId = product.SubCategoryId,
-                    Photo = image.Source,
-                    Image = product.Image,
-                    LangText = product.LangText,
-                    Name = product.Name
-                };
-                listData.Add(currentProduct);
+                    Image image = new Image();
+                    var stream = new MemoryStream(product.Image);
+                    image.Source = ImageSource.FromStream(() => { return stream; });
+                    var currentProduct = new Product
+                    {
+                        Id = product.Id,
+                        SubCategory = product.SubCategory,
+                        SubCategoryId = product.SubCategoryId,
+                        Photo = image.Source,
+                        Image = product.Image,
+                        LangText = product.LangText,
+                        Name = product.Name
+                    };
+                    listData.Add(currentProduct);
+                }
             }
 
             if (searchText != "no text")
@@ -102,10 +105,17 @@ namespace Mob_Manual
 
         public class SubCategory
         {
+            [JsonProperty("Id")]
+            public int Id { get; set; }
             [JsonProperty("Name")]
             public string Name { get; set; }
             [JsonProperty("Image")]
             public byte[] Image { get; set; }
+            [JsonProperty("CategoryId")]
+            public int CategoryId { get; set; }
+            [JsonProperty("Category")]
+            public string Category { get; set; }
+            public ImageSource Photo { get; set; }
         }
 
         public class Product
@@ -130,12 +140,12 @@ namespace Mob_Manual
 
         private void listView_Refreshing(object sender, EventArgs e)
         {
-            RefreshDataAsync();
+            VisualizeProducts(retrievedData);
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefreshDataAsync(e.NewTextValue);
+            VisualizeProducts(retrievedData, e.NewTextValue);
         }
 
         private async void listView_ItemSelectedAsync(object sender, SelectedItemChangedEventArgs e)

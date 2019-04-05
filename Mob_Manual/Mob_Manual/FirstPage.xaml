@@ -12,6 +12,13 @@
                    FontSize="Small"
                    TextColor="Black"
                    HeightRequest="25"/>
+        <ActivityIndicator 
+            IsRunning="True" 
+            x:Name="Indicator"
+            AbsoluteLayout.LayoutBounds="0.5, 0.5, 50, 50"
+            AbsoluteLayout.LayoutFlags="PositionProportional">
+        </ActivityIndicator>
+
         <ListView x:Name="initialListView" ItemSelected="listView_ItemSelectedAsync" HasUnevenRows="True" IsPullToRefreshEnabled="True" Refreshing="listView_Refreshing">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -19,7 +26,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image Source="{Binding Photo}" HeightRequest="40"/>
                             <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
-                                <Label Text="{Binding Name}" FontSize="Default"/>
+                                <Label Text="{Binding Name}" FontSize="Medium"/>
                                 <Label Text="{Binding Category}" TextColor="CadetBlue" FontSize="Micro"/>
                             </StackLayout>
                         </StackLayout>

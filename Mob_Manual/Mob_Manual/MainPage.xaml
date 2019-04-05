@@ -24,7 +24,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image Source="{Binding Photo}" HeightRequest="40"/>
                             <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
-                                <Label Text="{Binding Name}" FontSize="Micro"/>
+                                <Label Text="{Binding Name}" FontSize="Medium"/>
                                 <Label Text="{Binding SubCategory}" TextColor="CadetBlue" FontSize="Micro"/>
                             </StackLayout>
                         </StackLayout>

@@ -17,7 +17,7 @@ namespace Mob_Manual.MarkupExtentions
             {
                 return null;
             }
-            return ImageSource.FromResource("Mob_Manual.Images.background.jpg");
+            return ImageSource.FromResource(ResourceId);
         }
     }
 }

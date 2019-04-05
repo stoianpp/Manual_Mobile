@@ -33,6 +33,7 @@ namespace Mob_Manual
                 var content = await response.Content.ReadAsStringAsync();
                 MainPage.DataIn data = JsonConvert.DeserializeObject<MainPage.DataIn>(content);
                 retrievedData = data;
+                Indicator.IsRunning = false;
                 VisualizeProducts(data);
             }
         }
@@ -40,7 +41,6 @@ namespace Mob_Manual
         public void VisualizeProducts(MainPage.DataIn data)
         {
             var listData = new List<MainPage.SubCategory>();
-            listData.Add(new MainPage.SubCategory { Name = "Full Product List" });
             listData.Add(new MainPage.SubCategory { Name = "Merchandising Rules" });
             listData.Add(new MainPage.SubCategory { Name = "Current Promotions" });
             foreach (var item in data.subCats)

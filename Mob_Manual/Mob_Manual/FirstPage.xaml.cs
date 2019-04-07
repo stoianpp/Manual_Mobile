@@ -41,8 +41,6 @@ namespace Mob_Manual
         public void VisualizeProducts(MainPage.DataIn data)
         {
             var listData = new List<MainPage.SubCategory>();
-            listData.Add(new MainPage.SubCategory { Name = "Merchandising Rules" });
-            listData.Add(new MainPage.SubCategory { Name = "Current Promotions" });
             foreach (var item in data.subCats)
             {
                 Image image = new Image();

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Xamarin.Forms;
@@ -39,7 +40,7 @@ namespace Mob_Manual
             }
         }
 
-        public void VisualizeProducts(MainPage.DataIn data)
+        public void VisualizeProducts(MainPage.DataIn data, string searchText = "no text")
         {
             var listData = new List<MainPage.SubCategory>();
             foreach (var item in data.subCats)
@@ -56,6 +57,11 @@ namespace Mob_Manual
                     Name = item.Name
                 };
                 listData.Add(currentSubCategory);
+            }
+
+            if (searchText != "no text")
+            {
+                listData = listData.Where(x => x.Name.StartsWith(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
             initialListView.ItemsSource = listData;
@@ -138,9 +144,10 @@ namespace Mob_Manual
             RefreshDataAsync();
         }
 
+
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefreshDataAsync(e.NewTextValue);
+            VisualizeProducts(retrievedData, e.NewTextValue);
         }
 
         private async void listView_ItemSelectedAsync(object sender, SelectedItemChangedEventArgs e)

@@ -23,9 +23,9 @@
                         <ColumnDefinition Width="8*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Entry Grid.Row="1" x:Name="Mail"  Grid.Column="1" FontSize="Medium" TextColor="ForestGreen" PlaceholderColor="LightGray" Placeholder="Email" Text="{Binding Email}" HorizontalOptions="FillAndExpand"/>
-                    <Entry Grid.Row="2" x:Name="Password" Grid.Column="1" FontSize="Medium" TextColor="ForestGreen" PlaceholderColor="LightGray" Placeholder="Password" IsPassword="True" Text="{Binding Password}" HorizontalOptions="FillAndExpand" />
-                    <Button Grid.Row="3" Text="Login" Grid.Column="1" Clicked="Next_Clicked" HorizontalOptions="CenterAndExpand" BackgroundColor="ForestGreen" TextColor="White" FontSize="Medium"/>
+                    <Entry Grid.Row="1" x:Name="Mail"  Grid.Column="1" FontSize="Medium" TextColor="#009697" PlaceholderColor="LightGray" Placeholder="Email" Text="{Binding Email}" HorizontalOptions="FillAndExpand"/>
+                    <Entry Grid.Row="2" x:Name="Password" Grid.Column="1" FontSize="Medium" TextColor="#009697" PlaceholderColor="LightGray" Placeholder="Password" IsPassword="True" Text="{Binding Password}" HorizontalOptions="FillAndExpand" />
+                    <Button Grid.Row="3" Text="Login" Grid.Column="1" Clicked="Next_Clicked" HorizontalOptions="CenterAndExpand" BackgroundColor="#009697" TextColor="White" FontSize="Medium"/>
                 </Grid>
             </StackLayout>
         </Grid>

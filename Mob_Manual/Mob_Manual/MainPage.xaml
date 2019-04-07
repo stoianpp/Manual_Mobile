@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Mob_Manual.MarkupExtentions"
              x:Class="Mob_Manual.MainPage"
              Title="Product List"
-             Padding="0,20,0,0">
+             Padding="10">
     <StackLayout>
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 
@@ -22,7 +22,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
-                            <Image Source="{Binding Photo}" HeightRequest="40"/>
+                            <Image Source="{Binding Photo}" HeightRequest="40" WidthRequest="40"/>
                             <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
                                 <Label Text="{Binding Name}" FontSize="Medium"/>
                                 <Label Text="{Binding SubCategory}" TextColor="CadetBlue" FontSize="Micro"/>

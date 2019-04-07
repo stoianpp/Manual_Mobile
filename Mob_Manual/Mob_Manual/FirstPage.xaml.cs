@@ -34,6 +34,7 @@ namespace Mob_Manual
                 MainPage.DataIn data = JsonConvert.DeserializeObject<MainPage.DataIn>(content);
                 retrievedData = data;
                 Indicator.IsRunning = false;
+                Indicator.IsVisible = false;
                 VisualizeProducts(data);
             }
         }

@@ -155,7 +155,7 @@ namespace Mob_Manual
                 return;
             }
             var product = e.SelectedItem as Product;
-            await Navigation.PushAsync(new ProductDetailPage(product));
+            await Navigation.PushAsync(new ProductDetail(product));
             listView.SelectedItem = null;
         }
     }

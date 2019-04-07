@@ -17,13 +17,17 @@ namespace Mob_Manual
 				throw new ArgumentNullException();
 			}
 
-			Image image = new Image();
-			var stream = new MemoryStream(product.Image);
-			image.Source = ImageSource.FromStream(() => { return stream; });
-
-			product.Photo = image.Source;
-			BindingContext = product;
 			InitializeComponent ();
+
+			var browser = new WebView();
+			var htmlSource = new HtmlWebViewSource();
+			htmlSource.Html = product.LangText;
+			browser.Source = htmlSource;
+			var page = new RelativeLayout();
+			Content = page;
+			page.Children.Add(browser, widthConstraint: Constraint.RelativeToParent(parent => parent.Width),
+                heightConstraint: Constraint.RelativeToParent(parent => parent.Height));
+
 		}
 	}
 }

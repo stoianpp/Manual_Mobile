@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Mob_Manual.MarkupExtentions"
              x:Class="Mob_Manual.FirstPage"
              Title="Categories"
-             Padding="0,20,0,0">
+             Padding="10">
     <StackLayout>
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 
@@ -14,7 +14,9 @@
                    HeightRequest="25"/>
         <ActivityIndicator 
             IsRunning="True" 
+            IsVisible="True"
             x:Name="Indicator"
+            Color="#009697"
             AbsoluteLayout.LayoutBounds="0.5, 0.5, 50, 50"
             AbsoluteLayout.LayoutFlags="PositionProportional">
         </ActivityIndicator>

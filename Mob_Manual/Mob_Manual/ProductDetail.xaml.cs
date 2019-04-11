@@ -7,6 +7,7 @@ using static Mob_Manual.MainPage;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Mob_Manual.Classes;
 
 namespace Mob_Manual
 {

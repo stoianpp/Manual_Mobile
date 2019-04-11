@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Mob_Manual.Classes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace Mob_Manual
 {
     public partial class FirstPage : ContentPage
     {
-        private MainPage.DataIn retrievedData;
+        private DataIn retrievedData;
         private readonly string tokenCode;
 
         public FirstPage(string token)
@@ -32,7 +33,7 @@ namespace Mob_Manual
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                MainPage.DataIn data = JsonConvert.DeserializeObject<MainPage.DataIn>(content);
+                DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
                 retrievedData = data;
                 Indicator.IsRunning = false;
                 Indicator.IsVisible = false;
@@ -40,15 +41,15 @@ namespace Mob_Manual
             }
         }
 
-        public void VisualizeProducts(MainPage.DataIn data, string searchText = "no text")
+        public void VisualizeProducts(DataIn data, string searchText = "no text")
         {
-            var listData = new List<MainPage.SubCategory>();
+            var listData = new List<SubCategory>();
             foreach (var item in data.subCats)
             {
                 Image image = new Image();
                 var stream = new MemoryStream(item.Image);
                 image.Source = ImageSource.FromStream(() => { return stream; });
-                var currentSubCategory = new MainPage.SubCategory
+                var currentSubCategory = new SubCategory
                 {
                     Id = item.Id,
                     Category = item.Category,
@@ -68,71 +69,10 @@ namespace Mob_Manual
             initialListView.IsRefreshing = false;
         }
 
-        public class DataIn
-        {
-            [JsonProperty("data")]
-            public List<EndUserViewModel> data = new List<EndUserViewModel>();
-            [JsonProperty("cats")]
-            public List<Category> cats = new List<Category>();
-            [JsonProperty("subCats")]
-            public List<SubCategory> subCats = new List<SubCategory>();
-        }
-
-        public class EndUserViewModel
-        {
-            [JsonProperty("Id")]
-            public int Id { get; set; }
-            [JsonProperty("SubCategoryId")]
-            public int SubCategoryId { get; set; }
-            [JsonProperty("SubCategory")]
-            public string SubCategory { get; set; }
-            [JsonProperty("Name")]
-            public string Name { get; set; }
-            [JsonProperty("Image")]
-            public byte[] Image { get; set; }
-            [JsonProperty("LangText")]
-            public string LangText { get; set; }
-        }
-
-        public class Category
-        {
-            [JsonProperty("Id")]
-            public int Id { get; set; }
-            [JsonProperty("Name")]
-            public string Name { get; set; }
-            [JsonProperty("Image")]
-            public byte[] Image { get; set; }
-        }
-
-        public class SubCategory
-        {
-            [JsonProperty("Id")]
-            public int Id { get; set; }
-            [JsonProperty("Name")]
-            public string Name { get; set; }
-            [JsonProperty("Image")]
-            public byte[] Image { get; set; }
-            [JsonProperty("CategoryId")]
-            public int CategoryId { get; set; }
-            [JsonProperty("Category")]
-            public string Category { get; set; }
-            public ImageSource Photo { get; set; }
-        }
-
-        public class Product
-        {
-            public int Id { get; set; }
-            public int SubCategoryId { get; set; }
-            public string SubCategory { get; set; }
-            public string Name { get; set; }
-            public ImageSource Photo { get; set; }
-            public string LangText { get; set; }
-        }
-
         private async void MenuItem_Clicked(object sender, EventArgs e)
         {
             var menuItem = sender as MenuItem;
-            var subCategory = menuItem.CommandParameter as MainPage.SubCategory;
+            var subCategory = menuItem.CommandParameter as SubCategory;
             await Navigation.PushAsync(new MainPage(retrievedData, subCategory));
             //var text = new HtmlWebViewSource();
             //text.Html = product.LangText;
@@ -157,7 +97,7 @@ namespace Mob_Manual
                 return;
             }
 
-            var subCategory = e.SelectedItem as MainPage.SubCategory;
+            var subCategory = e.SelectedItem as SubCategory;
             await Navigation.PushAsync(new MainPage(retrievedData, subCategory));
 
             initialListView.SelectedItem = null;

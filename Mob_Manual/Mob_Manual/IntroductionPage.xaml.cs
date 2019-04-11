@@ -23,23 +23,34 @@ namespace Mob_Manual
 				new KeyValuePair<string, string>("password", Password.Text),
 				new KeyValuePair<string, string>("grant_type", "password")
 			};
-			var request = new HttpRequestMessage(HttpMethod.Post, "http://stoianpp-001-site1.htempurl.com/Token");
-			request.Content = new FormUrlEncodedContent(keyValues);
-			var client = new HttpClient();
-			var response = await client.SendAsync(request);
-			var content = await response.Content.ReadAsStringAsync();
-			var jwtDynamic = JsonConvert.DeserializeObject<dynamic>(content);
-			var accessToken = jwtDynamic.Value<string>("access_token");
 
-            if (accessToken != null)
-            {
-                await Navigation.PushAsync(new FirstPage(accessToken));
-            }
-            else
-            {
-                await DisplayAlert("Try Again", "You have entered wrong username or/and password. Pleas, try again!", "Close");
-            }
-        }
+			dynamic accessToken = null;
+			try
+			{
+				var request = new HttpRequestMessage(HttpMethod.Post, "http://stoianpp-001-site1.htempurl.com/Token");
+				request.Content = new FormUrlEncodedContent(keyValues);
+				var client = new HttpClient();
+				var response = await client.SendAsync(request);
+				var content = await response.Content.ReadAsStringAsync();
+				var jwtDynamic = JsonConvert.DeserializeObject<dynamic>(content);
+				accessToken = jwtDynamic.Value<string>("access_token");
+			}
+			catch (Exception ex)
+			{
+				await DisplayAlert("Connection Error", "Check your network and try again later, please!", "Close");
+				Console.WriteLine(ex.Message);
+			}
+
+
+			if (accessToken != null)
+			{
+				await Navigation.PushAsync(new FirstPage(accessToken));
+			}
+			else
+			{
+				await DisplayAlert("Try Again", "You have entered wrong username or/and password. Pleas, try again!", "Close");
+			}
+		}
 	}
 
 }

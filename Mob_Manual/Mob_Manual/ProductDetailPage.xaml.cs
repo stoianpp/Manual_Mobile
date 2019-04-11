@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mob_Manual.Classes;
+using System;
 using System.IO;
 
 using Xamarin.Forms;

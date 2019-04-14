@@ -41,6 +41,8 @@ namespace Mob_Manual
 				Console.WriteLine(ex.Message);
 			}
 
+			Mail.Text = String.Empty;
+			Password.Text = String.Empty;
 
 			if (accessToken != null)
 			{

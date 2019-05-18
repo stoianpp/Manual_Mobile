@@ -17,7 +17,10 @@ namespace Mob_Manual
 
 		async void Next_Clicked(object sender, EventArgs e)
 		{
-			var keyValues = new List<KeyValuePair<string, string>>
+            Indicator1.IsRunning = true;
+            Indicator1.IsVisible = true;
+
+            var keyValues = new List<KeyValuePair<string, string>>
 			{
 				new KeyValuePair<string, string>("username", Mail.Text),
 				new KeyValuePair<string, string>("password", Password.Text),
@@ -39,6 +42,11 @@ namespace Mob_Manual
 			{
 				await DisplayAlert("Connection Error", "Check your network and try again later, please!", "Close");
 				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				Indicator1.IsRunning = false;
+				Indicator1.IsVisible = false;
 			}
 
 			Mail.Text = String.Empty;

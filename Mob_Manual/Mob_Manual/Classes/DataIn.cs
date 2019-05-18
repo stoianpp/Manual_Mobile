@@ -13,5 +13,9 @@ namespace Mob_Manual.Classes
         public List<Category> cats = new List<Category>();
         [JsonProperty("subCats")]
         public List<SubCategory> subCats = new List<SubCategory>();
+        [JsonProperty("lastUpdated")]
+        public string lastUpdated;
+        [JsonProperty("longTimestamp")]
+        public string longTimestamp;
     }
 }

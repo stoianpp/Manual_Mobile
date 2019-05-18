@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Mob_Manual
@@ -14,11 +15,13 @@ namespace Mob_Manual
     {
         private DataIn retrievedData;
         private readonly string tokenCode;
+        private IFileSystem fileSystem;
 
         public FirstPage(string token)
         {
             tokenCode = token;
             InitializeComponent();
+            fileSystem = DependencyService.Get<IFileSystem>();
             RefreshDataAsync();
         }
 
@@ -26,6 +29,8 @@ namespace Mob_Manual
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
+            //to implement with local stored timestamp if null => then 0
+            client.DefaultRequestHeaders.Add("Timestamp",await GetCurrentTimestamp());
             var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
 
             var response = await client.GetAsync(uri);
@@ -35,6 +40,20 @@ namespace Mob_Manual
                 var content = await response.Content.ReadAsStringAsync();
                 DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
                 retrievedData = data;
+
+                fileSystem.WriteTextAsync("datain", content);
+                fileSystem.WriteTextAsync("timestamp", data.lastUpdated);
+
+                Indicator.IsRunning = false;
+                Indicator.IsVisible = false;
+                VisualizeProducts(data);
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                var content = await fileSystem.GetFile("datain");
+                DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
+                retrievedData = data;
+
                 Indicator.IsRunning = false;
                 Indicator.IsVisible = false;
                 VisualizeProducts(data);
@@ -101,6 +120,20 @@ namespace Mob_Manual
             await Navigation.PushAsync(new MainPage(retrievedData, subCategory));
 
             initialListView.SelectedItem = null;
+        }
+
+        public async Task<string> GetCurrentTimestamp()
+        {
+            try
+            {
+                var timestampStr = await fileSystem.GetFile("timestamp");
+                return timestampStr;
+            }
+            catch (Exception)
+            {
+
+                return "0";
+            }
         }
     }
 }

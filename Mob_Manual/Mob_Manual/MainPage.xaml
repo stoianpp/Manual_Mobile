@@ -10,7 +10,7 @@
                    PlaceholderColor="Gray"
                    FontSize="Small"
                    TextColor="Black"
-                   HeightRequest="25"/>
+                   HeightRequest="40"/>
 
         <ListView x:Name="listView" 
                   HasUnevenRows="True" 

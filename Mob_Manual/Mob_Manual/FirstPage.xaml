@@ -11,7 +11,7 @@
                    PlaceholderColor="Gray"
                    FontSize="Small"
                    TextColor="Black"
-                   HeightRequest="25"/>
+                   HeightRequest="40"/>
         <ActivityIndicator 
             IsRunning="True" 
             IsVisible="True"

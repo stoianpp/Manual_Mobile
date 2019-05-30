@@ -22,7 +22,8 @@ namespace Mob_Manual
 
 			var browser = new WebView();
 			var htmlSource = new HtmlWebViewSource();
-			htmlSource.Html = product.LangText;
+            var text = product.LangText.Replace("???", "&bull;");
+            htmlSource.Html = text;
 			browser.Source = htmlSource;
 			var page = new RelativeLayout();
 			Content = page;

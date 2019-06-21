@@ -26,7 +26,7 @@ namespace Mob_Manual.iOS
                 await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
             }
 
-            return Encoding.ASCII.GetString(result);
+            return Encoding.UTF8.GetString(result);
         }
 
         async Task IFileSystem.WriteTextAsync(string fileName, string text)

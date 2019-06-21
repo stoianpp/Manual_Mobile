@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -52,6 +53,7 @@ namespace Mob_Manual
             {
                 var content = await fileSystem.GetFile("datain");
                 DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
+
                 retrievedData = data;
 
                 Indicator.IsRunning = false;

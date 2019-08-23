@@ -32,7 +32,8 @@ namespace Mob_Manual
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
             //to implement with local stored timestamp if null => then 0
             client.DefaultRequestHeaders.Add("Timestamp",await GetCurrentTimestamp());
-            var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
+            //var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
+            var uri = new Uri("http://stoianpp-001-site2.htempurl.com/api/values");
 
             var response = await client.GetAsync(uri);
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.Brandoman" android:installLocation="auto" android:versionName="Brandoman8" android:versionCode="8">
-	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="27" />
-	<application android:label="Brandoman" android:icon="@drawable/icon"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.BrandomanEPC" android:installLocation="auto" android:versionName="Brandoman9" android:versionCode="9">
+	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28" />
+	<application android:label="Brandoman" android:icon="@drawable/icon" android:usesCleartextTraffic="true"></application>
 </manifest>

@@ -12,7 +12,7 @@ namespace Mob_Manual
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new IntroductionPage());
+            MainPage = new IntroductionPage();
         }
 
         protected override void OnStart()

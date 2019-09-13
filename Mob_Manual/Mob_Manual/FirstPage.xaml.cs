@@ -43,8 +43,8 @@ namespace Mob_Manual
                 DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
                 retrievedData = data;
 
-                fileSystem.WriteTextAsync("datain", content);
-                fileSystem.WriteTextAsync("timestamp", data.lastUpdated);
+                await fileSystem.WriteTextAsync("datain", content);
+                await fileSystem.WriteTextAsync("timestamp", data.lastUpdated);
 
                 Indicator.IsRunning = false;
                 Indicator.IsVisible = false;
@@ -137,6 +137,19 @@ namespace Mob_Manual
 
                 return "0";
             }
+        }
+
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true; // true prevent navigation back and false to allow      
+        }
+
+        void LogoutButtonClicked(object sender, EventArgs e)
+        {
+            Application.Current.Properties["user"] = null;
+            Application.Current.Properties["pass"] = null;
+            Application.Current.MainPage = new IntroductionPage();
         }
     }
 }

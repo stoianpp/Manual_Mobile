@@ -5,6 +5,9 @@
              x:Class="Mob_Manual.FirstPage"
              Title="Categories"
              Padding="10">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Activated="LogoutButtonClicked" Text="LogOut"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <StackLayout>
         <SearchBar Placeholder="Search..." 
                    TextChanged="SearchBar_TextChanged" 

@@ -12,25 +12,76 @@ namespace Mob_Manual
 	{
 		public IntroductionPage ()
 		{
+            if (Application.Current.Properties.ContainsKey("user") && Application.Current.Properties.ContainsKey("pass") && Application.Current.Properties["user"] != null && Application.Current.Properties["pass"] != null)
+            {
+                Next(Application.Current.Properties["user"] as string, Application.Current.Properties["pass"] as string);
+            }
 			InitializeComponent();
 		}
 
-		async void Next_Clicked(object sender, EventArgs e)
-		{
+        async void Next_Clicked(object sender, EventArgs e)
+        {
+            string name, password;
+            if (Application.Current.Properties.ContainsKey("user") && Application.Current.Properties.ContainsKey("pass") && Application.Current.Properties["user"] != null && Application.Current.Properties["pass"] != null)
+            {
+                name = Application.Current.Properties["user"] as string;
+                password = Application.Current.Properties["pass"] as string;
+            }
+            else
+            {
+                name = Mail.Text;
+                password = Password.Text;
+            }
+
             Indicator1.IsRunning = true;
             Indicator1.IsVisible = true;
 
-            var keyValues = new List<KeyValuePair<string, string>>
-			{
-				new KeyValuePair<string, string>("username", Mail.Text),
-				new KeyValuePair<string, string>("password", Password.Text),
-				new KeyValuePair<string, string>("grant_type", "password")
-			};
+            dynamic accessToken = null;
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, "http://stoianpp-001-site2.htempurl.com/api/values/login?username=" + name + "&password=" + password);
+                //var request = new HttpRequestMessage(HttpMethod.Post, "http://stoianpp-001-site1.htempurl.com/Token");
+                //request.Content = new FormUrlEncodedContent(keyValues);
+                var client = new HttpClient();
+                var response = await client.SendAsync(request);
+                //var content = await response.Content.ReadAsStringAsync();
+                var content = await response.Content?.ReadAsStringAsync();
+                var jwtDynamic = JsonConvert.DeserializeObject<dynamic>(content);
+                //accessToken = jwtDynamic.Value<string>("access_token");
+                accessToken = jwtDynamic.Value<string>("token");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", "Check your network, username and password and try again, please!", "Close");
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Indicator1.IsRunning = false;
+                Indicator1.IsVisible = false;
+            }
+
+            Mail.Text = String.Empty;
+            Password.Text = String.Empty;
+
+            if (accessToken != null)
+            {
+                Application.Current.Properties["user"] = name;
+                Application.Current.Properties["pass"] = password;
+                Application.Current.MainPage = new NavigationPage(new FirstPage(accessToken));
+                //await Navigation.PushAsync(new FirstPage(accessToken));
+            }
+        }
+
+        async void Next(string name, string password)
+		{
+            //Indicator1.IsRunning = true;
+            //Indicator1.IsVisible = true;
 
 			dynamic accessToken = null;
 			try
 			{
-				var request = new HttpRequestMessage(HttpMethod.Get, "http://stoianpp-001-site2.htempurl.com/api/values/login?username="+ Mail.Text+"&password="+ Password.Text);
+				var request = new HttpRequestMessage(HttpMethod.Get, "http://stoianpp-001-site2.htempurl.com/api/values/login?username="+ name +"&password="+ password);
                 //var request = new HttpRequestMessage(HttpMethod.Post, "http://stoianpp-001-site1.htempurl.com/Token");
                 //request.Content = new FormUrlEncodedContent(keyValues);
                 var client = new HttpClient();
@@ -48,18 +99,21 @@ namespace Mob_Manual
 			}
 			finally
 			{
-				Indicator1.IsRunning = false;
-				Indicator1.IsVisible = false;
+				//Indicator1.IsRunning = false;
+				//Indicator1.IsVisible = false;
 			}
 
-			Mail.Text = String.Empty;
+            Mail.Text = String.Empty;
 			Password.Text = String.Empty;
 
 			if (accessToken != null)
 			{
-				await Navigation.PushAsync(new FirstPage(accessToken));
+                Application.Current.Properties["user"] = name;
+                Application.Current.Properties["pass"] = password;
+                Application.Current.MainPage = new NavigationPage(new FirstPage(accessToken));
+                //await Navigation.PushAsync(new FirstPage(accessToken));
 			}
 		}
-	}
+    }
 
 }

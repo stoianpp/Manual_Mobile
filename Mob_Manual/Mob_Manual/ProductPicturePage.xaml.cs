@@ -20,6 +20,7 @@ namespace Mob_Manual
         double startScale = 1;
         double xOffset = 0;
         double yOffset = 0;
+        double startX, startY;
 
         public ProductPicturePage(Product product)
         {
@@ -72,6 +73,35 @@ namespace Mob_Manual
             {
                 xOffset = Content.TranslationX;
                 yOffset = Content.TranslationY;
+            }
+        }
+
+        void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+        {
+            switch (e.StatusType)
+            {
+                case GestureStatus.Started:
+                    startX = e.TotalX;
+                    startY = e.TotalY;
+                    Content.AnchorX = 0;
+                    Content.AnchorY = 0;
+
+                    break;
+
+                case GestureStatus.Running:
+                    var maxTranslationX = Content.Scale * Content.Width - Content.Width;
+                    Content.TranslationX = Math.Min(0, Math.Max(-maxTranslationX, xOffset + e.TotalX - startX));
+
+                    var maxTranslationY = Content.Scale * Content.Height - Content.Height;
+                    Content.TranslationY = Math.Min(0, Math.Max(-maxTranslationY, yOffset + e.TotalY - startY));
+
+                    break;
+
+                case GestureStatus.Completed:
+                    xOffset = Content.TranslationX;
+                    yOffset = Content.TranslationY;
+
+                    break;
             }
         }
     }

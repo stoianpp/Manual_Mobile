@@ -8,6 +8,7 @@
             <Image Source="{Binding Photo}" Aspect="AspectFit" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Image.GestureRecognizers>
                     <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
                 </Image.GestureRecognizers>
             </Image>
         </StackLayout>

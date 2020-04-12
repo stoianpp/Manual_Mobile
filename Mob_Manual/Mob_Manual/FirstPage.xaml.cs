@@ -32,7 +32,7 @@ namespace Mob_Manual
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenCode);
             //to implement with local stored timestamp if null => then 0
             client.DefaultRequestHeaders.Add("Timestamp",await GetCurrentTimestamp());
-            //var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/crud");
+            //var uri = new Uri("http://stoianpp-001-site1.htempurl.com/api/values");
             var uri = new Uri("http://stoianpp-001-site2.htempurl.com/api/values");
 
             var response = await client.GetAsync(uri);
@@ -42,9 +42,14 @@ namespace Mob_Manual
                 var content = await response.Content.ReadAsStringAsync();
                 DataIn data = JsonConvert.DeserializeObject<DataIn>(content);
                 retrievedData = data;
+                var newTimestamp = data.lastUpdated;
+                if (data.longTimestamp.Split(new char[] { ' ' }).Length > 1)
+                {
+                    newTimestamp += " " + data.longTimestamp.Split(new char[] { ' ' })[1];
+                }
 
                 await fileSystem.WriteTextAsync("datain", content);
-                await fileSystem.WriteTextAsync("timestamp", data.lastUpdated);
+                await fileSystem.WriteTextAsync("timestamp", newTimestamp);
 
                 Indicator.IsRunning = false;
                 Indicator.IsVisible = false;
@@ -84,7 +89,7 @@ namespace Mob_Manual
 
             if (searchText != "no text")
             {
-                listData = listData.Where(x => x.Name.StartsWith(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                listData = listData.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList();
             }
 
             initialListView.ItemsSource = listData;

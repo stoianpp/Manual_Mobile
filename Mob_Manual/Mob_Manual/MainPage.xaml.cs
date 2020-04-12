@@ -48,7 +48,7 @@ namespace Mob_Manual
 
             if (searchText != "no text")
             {
-                listData = listData.Where(x => x.Name.StartsWith(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                listData = listData.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList();
             }
 
             listView.ItemsSource = listData;

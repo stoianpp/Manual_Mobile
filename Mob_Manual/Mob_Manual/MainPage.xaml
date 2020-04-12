@@ -21,7 +21,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
-                            <Image Source="{Binding Photo}" HeightRequest="40" WidthRequest="40"/>
+                            <Image Source="{Binding Photo}" HeightRequest="50" WidthRequest="50"/>
                             <StackLayout HorizontalOptions="StartAndExpand" Padding="5">
                                 <Label Text="{Binding Name}" FontSize="Medium"/>
                                 <Label Text="{Binding SubCategory}" TextColor="CadetBlue" FontSize="Micro"/>
